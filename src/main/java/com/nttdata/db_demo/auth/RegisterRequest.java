@@ -1,5 +1,5 @@
 package com.nttdata.db_demo.auth;
-import com.nttdata.db_demo.constants.Role;
+import com.nttdata.db_demo.constants.RoleEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,18 +15,5 @@ public class RegisterRequest {
 	private String name;
 	private String password;
 	private String designation;
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public String getPassword() {
-		return this.password;
-	}
-	
-	public String getDesignation() {
-		return this.designation ;
-	}
-	
-	
+	private RoleEnum role;	
 }

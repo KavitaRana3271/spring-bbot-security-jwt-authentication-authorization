@@ -6,6 +6,7 @@ package com.nttdata.db_demo.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Configuration // to make it a config class
 @EnableWebSecurity // since security is involved here
-@RequiredArgsConstructor
+@EnableMethodSecurity // default value of prePostEnabled is true , We need to secure our API’s by restricting which roles are able to execute a particular method.
 public class SecurityConfiguration {
 	
 	private final JwtAuthenticationFilter jwtAuthFilter;

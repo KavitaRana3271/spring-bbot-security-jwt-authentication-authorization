@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class UserController {
 private UserService service;
 
 @GetMapping("/me")
+@PreAuthorize("isAuthenticated()")
 public ResponseEntity<User> getAuthenticatedUser(){
 	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	User currentUser = (User) authentication.getPrincipal();
@@ -31,6 +33,7 @@ public ResponseEntity<User> getAuthenticatedUser(){
 }
 
 @GetMapping("/")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
 public ResponseEntity<List<User>> getAllUsers(){
 	return ResponseEntity.ok(service.getAllUsers());
 }

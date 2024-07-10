@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.nttdata.db_demo.constants.Role;
+import com.nttdata.db_demo.constants.RoleEnum;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,12 +40,14 @@ public class User implements UserDetails{
 	@Column(nullable = false)
 	private String designation;
 	
-//	@Enumerated(EnumType.STRING)
-//	private Role role;
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+	private Role role;
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of();
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_"+role.getName().toString());
+		return List.of(authority);
 	}
 	@Override
 	public String getPassword() {
@@ -55,23 +57,7 @@ public class User implements UserDetails{
 	public String getUsername() {
 		return name;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public void setDesignation(String designation) {
-		this.designation = designation;
-	}
-	
-//	public void setRole(Role role) {
-//		this.role = role;
-//	}
-	
+		
 	@Override
 	public boolean isAccountNonExpired() {
 	    return true;

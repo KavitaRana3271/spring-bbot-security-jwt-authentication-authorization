@@ -15,11 +15,11 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Component // to make this class a Bean
-@RequiredArgsConstructor //Used for creating constructor for any final field declared below
 //We can make many no. of type of filter - here of type - OncePerRequestFilter
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	
@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 		//Now we need to check whether the user already exists in the db
 		//For that we need to extract username(can be anything like email,name which is unique in the records , here name)
 		//from jwt token , so we create a JWTService class which has extractUsername(String token) method to do so
-		userName = jwtService.extractUsername(jwt);// TODO:Extract user's name from jwt token	
+		userName = jwtService.extractUsername(jwt);// TODO:Extract user's name from jwt token	- Done
 		
 		//So, In JWTService jwt validation service has been made which has all the methods related to jwt
 		//Now lets validate the jwt - username should not be null and check whether user is already authenticated or not 
@@ -86,6 +86,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 				SecurityContextHolder.getContext().setAuthentication(authToken);	
 			}
 			//Otherwise pass it to next filter chain method/action to be carried out
+			// allow the HttpRequest to go to Spring's DispatcherServlet
+	        // and @RestControllers/@Controllers.
 			filterChain.doFilter(request, response);
 			//Now next step is to bind all these things - the JwtAuthenticationFilter we created,jwt service and SpringContextHolders 
 			//For that we need to define the configuration we are going to use and define a Configuration Class like SecurityConfig class here

@@ -1,6 +1,7 @@
 package com.nttdata.db_demo.constants;
 
-public enum Role {
+public enum RoleEnum {
 	USER,
-	ADMIN
+	ADMIN,
+	SUPER_ADMIN
 }

@@ -24,15 +24,10 @@ import lombok.RequiredArgsConstructor;
  */
 @Configuration // so that spring app when starts it can inject this wherever its called on start
 @RequiredArgsConstructor // if we declare / inject any final fields or beans here
-public class ApplicationConfig {
-
-	
+public class ApplicationConfig {	
 	private final UserRepository userRepository;
-	
-	public ApplicationConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-	
+
+	//providing a custom impl because we are fetching the existing user data from our db
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return username -> userRepository.findByName(username).
